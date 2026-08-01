@@ -1351,7 +1351,7 @@ body.notes-visible #notes-panel { display: block; }
 <!-- ─── NAVIGATION ─────────────────────────────────────── -->
 <div id="nav">
   <button onclick="goTo(current-1)">← prev</button>
-  <span id="counter">1 / 25</span>
+  <span id="counter">1 / 1</span>
   <button onclick="goTo(current+1)">next →</button>
   <button id="notes-btn" onclick="toggleNotes()" title="Toggle speaking notes (N)">notes [N]</button>
 </div>
@@ -1401,7 +1401,7 @@ function goTo(n) {
 }
 
 const saved = parseInt(localStorage.getItem('slide'), 10);
-if (!isNaN(saved)) goTo(saved);
+goTo(!isNaN(saved) ? saved : 0);
 
 function toggleNotes() {
   document.body.classList.toggle('notes-visible');
