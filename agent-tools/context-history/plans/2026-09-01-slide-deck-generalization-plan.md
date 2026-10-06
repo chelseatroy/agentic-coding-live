@@ -182,11 +182,18 @@ output); full suite (25/25) green.
   QR codes for their O'Reilly pages, decoded after generation to confirm the
   URLs. The original `unbounded_contexts_slides/` folder still lacks them; it
   is kept only as a historical reference.
-- **Notes and the corner timer aren't visible at the same time** in the deck
-  as currently presented (noted by Chelsea 2026-09-01). Applies to the
-  migrated `unbounded-contexts` deck too since it shares
-  `mechanics/mechanics.css`. Not yet root-caused — needs investigation next
-  time.
-- **Write a README** that helps users understand how to generate slide decks
-  (authoring a deck from the template, running `build.js`) and how to make the
-  built decks distributable via Slack or email.
+- ~~**Notes and the corner timer aren't visible at the same time.**~~
+  **Done 2026-10-06** (`1cf4cb2`). The notes panel (z-index 150, opaque)
+  covered the timer (z-index 100). `mechanics/mechanics.css` now moves the
+  timer left of the panel while notes are showing. Covered by a position
+  comparison test in `tests/deck-generalization.spec.js`.
+- ~~**Write a README.**~~ **Done 2026-10-06** (`82eb314`). `README.md`
+  covers starting a deck from the template, theming, building with
+  `build.js`, and sharing the file from `dist/`.
+- **Session five: make generated slides visual, not wordy** (raised by
+  Chelsea 2026-10-06). The basic creation and presentation features work
+  well, but when Claude makes slides they tend to be quite wordy. Chelsea's
+  vision for slides is clear visualizations that accurately represent
+  concepts and help people understand them, using things like color, shape,
+  size, and juxtaposition. Next session: think about how this tool could
+  better realize that vision when it's used to generate slide decks.
