@@ -1,11 +1,21 @@
 #!/usr/bin/env node
-// Inlines a deck's linked stylesheets and scripts into a single
-// self-contained HTML file with no external references.
+// Inlines a deck's linked stylesheets, scripts, and local <img> sources
+// (as base64 data URIs) into a single self-contained HTML file with no
+// external references. Fails if a local image is missing.
 //
 // Usage: node build.js <deckDir> <outFile>
 
 const fs = require('fs');
 const path = require('path');
+
+const IMAGE_MIME_TYPES = {
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.webp': 'image/webp',
+};
 
 function build(deckDir, outFile) {
   const indexPath = path.join(deckDir, 'index.html');
@@ -28,6 +38,23 @@ function build(deckDir, outFile) {
       const jsPath = path.resolve(deckDir, src);
       const js = fs.readFileSync(jsPath, 'utf8');
       return `<script>\n${js}\n</script>`;
+    }
+  );
+
+  html = html.replace(
+    /(<img\b[^>]*?\bsrc=)(["'])([^"']+)\2/gi,
+    (tag, prefix, quote, src) => {
+      if (/^(data:|https?:|\/\/)/i.test(src)) return tag;
+      const imgPath = path.resolve(deckDir, src);
+      if (!fs.existsSync(imgPath)) {
+        throw new Error(`Image not found: ${src} (resolved to ${imgPath})`);
+      }
+      const mime = IMAGE_MIME_TYPES[path.extname(imgPath).toLowerCase()];
+      if (!mime) {
+        throw new Error(`Unsupported image type: ${src}`);
+      }
+      const data = fs.readFileSync(imgPath).toString('base64');
+      return `${prefix}${quote}data:${mime};base64,${data}${quote}`;
     }
   );
 

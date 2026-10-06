@@ -170,21 +170,18 @@ output); full suite (25/25) green.
 
 ## To do next time
 
-- **`build.js` doesn't inline images.** It only inlines `<link
-  rel="stylesheet">` and `<script src>` tags. Any `<img src="...">` in a deck
-  (e.g. `agentic-coding-skill.png`, `agentic-coding-live.png`,
-  `speaker-page-qr.png` in `decks/unbounded-contexts/`) is left as a relative
-  path in the built `dist/*.html`, so distributing that one file alone breaks
-  the images — this violates Priority 1 (trivially-easy, single-file
-  distribution). Preferred fix discussed 2026-09-01: extend `build.js` to
-  inline local images as base64 data URIs (true single-file output), rather
-  than just copying image files alongside the built HTML.
-- **Two image files referenced by `unbounded_contexts_slides.html` don't
-  exist**: `agentic-coding-skill.png` and `agentic-coding-live.png` are
-  missing from `unbounded_contexts_slides/` (pre-existing in the original
-  file, not introduced by the migration — carried over as-is into
-  `decks/unbounded-contexts/index.html`). Need the actual image files before
-  the deck is presentation-ready.
+- ~~**`build.js` doesn't inline images.**~~ **Done 2026-10-06.** `build.js`
+  now inlines local `<img src>` files as base64 data URIs (`data:`, `http(s):`
+  and `//` sources are left as-is). A missing local image or unsupported
+  extension fails the build, per Chelsea's call. Covered by
+  `tests/build-images.spec.js`. CSS `url(...)`, `srcset`, `<source>` and
+  `poster` are still not inlined — no deck uses them yet.
+- ~~**Two image files referenced by `unbounded_contexts_slides.html` don't
+  exist.**~~ **Done 2026-10-06.** Added `agentic-coding-skill.png` (slide 8)
+  and `agentic-coding-live.png` (slide 25) to `decks/unbounded-contexts/` as
+  QR codes for their O'Reilly pages, decoded after generation to confirm the
+  URLs. The original `unbounded_contexts_slides/` folder still lacks them; it
+  is kept only as a historical reference.
 - **Notes and the corner timer aren't visible at the same time** in the deck
   as currently presented (noted by Chelsea 2026-09-01). Applies to the
   migrated `unbounded-contexts` deck too since it shares

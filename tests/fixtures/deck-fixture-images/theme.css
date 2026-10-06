@@ -1,0 +1,11 @@
+:root {
+  --bg: #f0f2f8;
+  --text: #1a1e30;
+  --slide-bg: #ffffff;
+  --accent: #2a5fd4;
+  --nav-bg: rgba(240,242,248,0.92);
+  --nav-border: #b0bcd8;
+  --nav-text: #4a5880;
+  --counter-text: #7080a8;
+  --timer-text: rgba(0,0,0,0.18);
+}

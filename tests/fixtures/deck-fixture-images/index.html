@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixture Deck Images</title>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="../../../mechanics/mechanics.css">
+</head>
+<body>
+
+<div class="slide active" id="s1">
+  <div class="section-label">Local</div>
+  <img id="local-img" src="pixel.png" alt="local">
+</div>
+
+<div class="slide" id="s2">
+  <div class="section-label">Already inline</div>
+  <img id="data-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="already inline">
+</div>
+
+<div class="slide" id="s3">
+  <div class="section-label">Remote</div>
+  <img id="remote-img" src="https://example.com/remote.png" alt="remote" loading="lazy">
+</div>
+
+<div id="slide-time"></div>
+
+<div id="notes-panel">
+  <div id="notes-controls">
+    <button onclick="adjustNotesFontSize(-2)">A-</button>
+    <button onclick="adjustNotesFontSize(2)">A+</button>
+  </div>
+  <div id="notes-content"></div>
+</div>
+
+<div id="nav">
+  <button onclick="goTo(current-1)">&larr; prev</button>
+  <span id="counter">1 / 3</span>
+  <button onclick="goTo(current+1)">next &rarr;</button>
+  <button id="notes-btn" onclick="toggleNotes()" title="Toggle speaking notes (N)">notes [N]</button>
+</div>
+
+<script src="../../../mechanics/mechanics.js" defer></script>
+</body>
+</html>
