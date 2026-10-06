@@ -133,6 +133,7 @@ body.chrome-hidden #nav { display: none; }
   transition: bottom 0.15s;
 }
 body.chrome-hidden #slide-time { bottom: 1rem; }
+body.notes-visible #slide-time { right: calc(33.33vw + 1rem); }
 
 /* ─── BLINKING CURSOR ───────────────────────────────────── */
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }

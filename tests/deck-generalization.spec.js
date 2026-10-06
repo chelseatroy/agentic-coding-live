@@ -80,6 +80,25 @@ test.describe('priority-3 functionality survives the build, in isolation', () =>
     await expect(page.locator('body')).not.toHaveClass(/notes-visible/);
   });
 
+  test('timer moves left of the notes panel instead of being covered by it', async ({ page }) => {
+    await page.goto(deckPath);
+    const slideTime = page.locator('#slide-time');
+    const notesPanel = page.locator('#notes-panel');
+
+    await page.keyboard.press('n');
+    await expect(notesPanel).toBeVisible();
+    await expect(slideTime).toBeVisible();
+
+    // toBeVisible() doesn't detect occlusion, and #slide-time has
+    // pointer-events: none so elementFromPoint skips it — compare boxes instead.
+    // Poll in case the move is animated.
+    const panelBox = await notesPanel.boundingBox();
+    await expect.poll(async () => {
+      const box = await slideTime.boundingBox();
+      return box.x + box.width;
+    }).toBeLessThanOrEqual(panelBox.x);
+  });
+
   test('P hides nav/counter/notes button but keeps the timer visible', async ({ page }) => {
     await page.goto(deckPath);
     await expect(page.locator('#nav')).toBeVisible();
