@@ -74,9 +74,9 @@ test.describe('audience/presenter mode toggle (P key)', () => {
 
     await page.keyboard.press('p');
     await expect(page.locator('#nav')).toBeHidden();
-    const boxAfter = await slideTime.boundingBox();
-
-    expect(boxAfter.y).toBeGreaterThan(boxBefore.y);
+    // #slide-time animates via a CSS transition, so poll until it has moved
+    // rather than reading the bounding box once mid-transition.
+    await expect.poll(async () => (await slideTime.boundingBox()).y).toBeGreaterThan(boxBefore.y);
   });
 
   test('navigation keys still work while chrome is hidden', async ({ page }) => {
